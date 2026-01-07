@@ -1,0 +1,5 @@
+[workspace]
+members = ["kernel", "driver_gifts"]
+resolver = "2"
+
+[workspace.dependencies]
