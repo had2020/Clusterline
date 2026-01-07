@@ -1,5 +1,5 @@
 [workspace]
-members = ["kernel", "driver_gifts"]
+members = ["Kernel", "Drivers"]
 resolver = "2"
 
 [workspace.dependencies]

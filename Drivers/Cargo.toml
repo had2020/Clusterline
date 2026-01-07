@@ -1,0 +1,5 @@
+[workspace]
+members = ["Keyboard/Blank1", "Display/Blank0", "Storage/Blank3", "Video/Blank4", "SOC/Blank2"] # Change members to choose which drivers to build with.
+resolver = "3"
+
+[workspace.dependencies]
