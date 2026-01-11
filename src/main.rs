@@ -3,8 +3,8 @@
 
 use core::panic::PanicInfo;
 
-pub mod drivers;
 pub mod arch;
+pub mod drivers;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
