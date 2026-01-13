@@ -1,5 +1,0 @@
-[workspace]
-members = ["entry", "allocator"]
-resolver = "2"
-
-[workspace.dependencies]
