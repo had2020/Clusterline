@@ -5,6 +5,8 @@ version = "0.0.1"
 [features]
 default = ["bitmap_allocater"]
 bitmap_allocater = []
+hardcoded = []
+ESP32-c6 = []
 virtio_gpu = []
 nvme = []
 

@@ -14,6 +14,7 @@ pub extern "C" fn _start() -> ! {
     {
         use allocation::bitmap::*;
 
+        #[cfg(feature = "")]
         let mut bitmap: PageBitmap = new_pagebitmap!();
     }
 
