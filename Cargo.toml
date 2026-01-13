@@ -3,8 +3,12 @@ name = "Clusterline"
 version = "0.0.1"
 
 [features]
+<<<<<<< HEAD
 default = ["bitmap_allocater"]
 bitmap_allocater = []
+=======
+default = ["todo"]
+>>>>>>> 08ad9044b4671af53cb6466a38ff603f82b03757
 virtio_gpu = []
 nvme = []
 
