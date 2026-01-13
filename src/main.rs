@@ -3,11 +3,20 @@
 
 use core::panic::PanicInfo;
 
-pub mod drivers;
+pub mod allocation;
 pub mod arch;
+pub mod drivers;
 
+// Kernel Entry
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
+    #[cfg(feature = "bitmap_allocater")]
+    {
+        use allocation::bitmap::*;
+
+        let mut bitmap: PageBitmap = new_pagebitmap!();
+    }
+
     loop {}
 }
 
