@@ -1,7 +1,7 @@
 /// bitmap where 0 = free and 1 = used.
 #[repr(C, align(64))]
 pub struct PageBitmap<const PAGE_BYTES: usize> {
-    pub bitmap: u32,
+    pub bitmap: usize,
     // TODO use other 60 bytes
 }
 
