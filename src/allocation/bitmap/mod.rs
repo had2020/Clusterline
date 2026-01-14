@@ -1,10 +1,15 @@
 /// bitmap where 0 = free and 1 = used.
 #[repr(C, align(64))]
-pub struct PageBitmap<const PAGE_BYTES: u32> {
-    bitmap: u32,
+pub struct PageBitmap<const PAGE_BYTES: usize> {
+    pub bitmap: u32,
+    // TODO use other 60 bytes
 }
 
-impl<const PAGE_BYTES: u32> PageBitmap<PAGE_BYTES> {
+impl<const PAGE_BYTES: usize> PageBitmap<PAGE_BYTES> {
+    pub const fn new() -> Self {
+        Self { bitmap: 0 }
+    }
+
     pub fn clear(&mut self) {
         unsafe {
             for i in 0..PAGE_BYTES {
@@ -15,13 +20,13 @@ impl<const PAGE_BYTES: u32> PageBitmap<PAGE_BYTES> {
     }
 
     #[inline(always)]
-    pub fn alloc(&mut self) -> Option<u32> {
-        let mut addr: Option<u32> = None;
+    pub fn alloc(&mut self) -> Option<usize> {
+        let mut addr: Option<usize> = None;
         let mut i: u8 = 1;
         loop {
             // TODO check
             if (self.bitmap << i).trailing_zeros() < (self.bitmap << (i - 1)).trailing_zeros() {
-                addr = Some(i as u32 * PAGE_BYTES);
+                addr = Some(i as usize * PAGE_BYTES);
                 break;
             }
 
@@ -34,19 +39,8 @@ impl<const PAGE_BYTES: u32> PageBitmap<PAGE_BYTES> {
     pub fn dealloc(page: u32) {
         unsafe {
             for i in 0..PAGE_BYTES {
-                ((page + i) as *mut u32).write(0);
+                ((page as usize + i) as *mut usize).write(0);
             }
         }
     }
-}
-
-#[macro_export]
-macro_rules! new_pagebitmap {
-    ($page_bytes: expr) => {
-        const PAGE_BYTES: u32 = $page_bytes;
-
-        PageBitmap {
-            bitmap: 0;
-        }
-    };
 }

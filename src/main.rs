@@ -1,10 +1,13 @@
 #![no_std]
 #![no_main]
 
+include!(concat!(env!("OUT_DIR"), "/config.rs"));
+
 use core::panic::PanicInfo;
 
 pub mod allocation;
 pub mod arch;
+pub mod devicetree;
 pub mod drivers;
 
 // Kernel Entry
@@ -12,10 +15,9 @@ pub mod drivers;
 pub extern "C" fn _start() -> ! {
     #[cfg(feature = "bitmap_allocater")]
     {
-        use allocation::bitmap::*;
+        use allocation::bitmap::PageBitmap;
 
-        #[cfg(feature = "")]
-        let mut bitmap: PageBitmap = new_pagebitmap!();
+        let mut bitmap: PageBitmap<MAX_ADDR> = PageBitmap { bitmap: 0 };
     }
 
     loop {}
