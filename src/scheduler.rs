@@ -11,18 +11,24 @@ pub enum ProcessState {
 
 #[repr(align(64))]
 pub struct ProcessControlBlock {
-    pub stack_pointer: usize,
-    pub task_id: u64,
+    pub stack_pointer: *mut usize,
+    pub text_pointer: *mut usize
+    pub task_id: u16,
     pub state: ProcessState,
 }
 
+// elements are sized from ProcessControlBlock
 #[repr(align(64))]
-pub union FifoQueue {
+pub struct FifoQueue {
     pub len: u16,
-    pub element_size: u8,
-    next_ptr: usize,
+    pub next: *mut usize,
 }
 
 pub impl FifoQueue {
-    pub fn grow() {} 
+    // TODO reallocate if needed.
+    pub fn add_process(&mut self) {
+        self.len += 1; // TODO safe add
+        self.next += 1; // TODO move ptr
+        // TODO write process control block 
+    }
 }
