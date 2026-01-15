@@ -16,7 +16,13 @@ pub struct ProcessControlBlock {
     pub state: ProcessState,
 }
 
-pub struct FifoQueue {
-    pub len: u32,
-    pub element_size: // TODO perhaps OS vec type?
+#[repr(align(64))]
+pub union FifoQueue {
+    pub len: u16,
+    pub element_size: u8,
+    next_ptr: usize,
+}
+
+pub impl FifoQueue {
+    pub fn grow() {} 
 }
