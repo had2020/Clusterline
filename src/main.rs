@@ -10,6 +10,7 @@ pub mod arch;
 pub mod devicetree;
 pub mod drivers;
 pub mod scheduler;
+pub mod syscalls;
 
 // Kernel Entry
 #[no_mangle]
