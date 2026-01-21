@@ -1,5 +1,7 @@
 // Uses FCFS
 
+use core::ptr;
+
 use crate::allocation::*;
 
 #[repr(u8)]
@@ -11,8 +13,8 @@ pub enum ProcessState {
 
 #[repr(align(64))]
 pub struct ProcessControlBlock {
-    pub stack_pointer: *mut usize,
-    pub text_pointer: *mut usize,
+    pub stack_offset: *mut u8,
+    pub text_offset: *mut u8,
     pub task_id: u16,
     pub state: ProcessState,
 }
@@ -27,9 +29,10 @@ pub struct FifoQueue {
 impl FifoQueue {
     // TODO reallocate if needed.
     pub fn add_process(&mut self) {
-        self.len.saturating_add(1);
+        self.len = self.len.saturating_add(1);
         unsafe {
-            self.next.byte_add(1);
+            self.next.write_bytes(0_u8, 1);
+            self.next = self.next.byte_add(1);
         }
 
         // TODO write process control block

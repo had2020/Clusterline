@@ -3,8 +3,7 @@ name = "Clusterline"
 version = "0.0.1"
 
 [features]
-default = ["bitmap_allocater"]
-bitmap_allocater = []
+#default = ["bitmap_allocater"]
 
 # Driver features
 virtio_gpu = []

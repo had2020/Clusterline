@@ -7,9 +7,11 @@ pub enum Trap<I, E> {
 
 #[no_mangle]
 pub extern "C" fn trap_handler() {
+    let mut rd: usize;
     #[cfg(target_arch = "riscv32")]
     {
-        asm!()
+        asm!(
+            csrrs rd, csr, x0
+        )
     }
 }
-

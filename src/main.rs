@@ -5,6 +5,8 @@ include!(concat!(env!("OUT_DIR"), "/config.rs"));
 
 use core::panic::PanicInfo;
 
+use crate::scheduler::FifoQueue;
+
 pub mod allocation;
 pub mod arch;
 pub mod devicetree;
@@ -15,14 +17,14 @@ pub mod syscalls;
 // Kernel Entry
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    #[cfg(feature = "bitmap_allocater")]
-    {
-        use allocation::bitmap::*;
+    use allocation::*;
+    let mut bitmap: PageBitmap<MAX_ADDR> = PageBitmap { bitmap: 0 };
+    bitmap.clear();
 
-        let mut bitmap: PageBitmap<MAX_ADDR> = PageBitmap { bitmap: 0 };
-
-        bitmap.clear();
-    }
+    let mut process_queue: FifoQueue = FifoQueue {
+        len: 0,
+        next: 0_usize,
+    };
 
     loop {}
 }
