@@ -3,9 +3,10 @@
 
 include!(concat!(env!("OUT_DIR"), "/config.rs"));
 
+use core::mem;
 use core::panic::PanicInfo;
 
-use crate::scheduler::FifoQueue;
+use crate::scheduler::{FifoQueue, PCB};
 
 pub mod allocation;
 pub mod arch;
@@ -21,12 +22,15 @@ pub extern "C" fn _start() -> ! {
     let mut bitmap: PageBitmap<MAX_ADDR> = PageBitmap { bitmap: 0 };
     bitmap.clear();
 
+    let mut kenrel_ptr: usize = bitmap.alloc().unwrap();
+
     let mut process_queue: FifoQueue = FifoQueue {
         len: 0,
-        next: 0_usize,
+        next: core::ptr::null_mut(),
+        t_size: mem::size_of::<PCB>(),
     };
 
-    loop {}
+    loop {} // scheduler should handle unless no tasks then TODO
 }
 
 #[panic_handler]
