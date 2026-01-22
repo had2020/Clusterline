@@ -12,12 +12,14 @@ pub enum ProcessState {
     Terminated,
 }
 
+// TODO add reg save pointer
 /// ProcessControlBlock
-#[repr(align(64))]
+#[repr(C, align(64))]
 pub struct PCB {
     pub stack_offset: usize,
     pub text_offset: usize,
     pub pc_offset: usize,
+    pub reg_save_offset: usize,
     pub task_id: u16,
     pub state: ProcessState,
 }

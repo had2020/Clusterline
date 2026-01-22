@@ -22,11 +22,12 @@ pub extern "C" fn _start() -> ! {
     let mut bitmap: PageBitmap<MAX_ADDR> = PageBitmap { bitmap: 0 };
     bitmap.clear();
 
-    let mut kenrel_ptr: usize = bitmap.alloc().unwrap();
+    let fifoqueue_ptr: *mut usize = bitmap.alloc().unwrap() as *mut usize;
 
     let mut process_queue: FifoQueue = FifoQueue {
         len: 0,
-        next: core::ptr::null_mut(),
+        //next: core::ptr::null_mut(),
+        next: fifoqueue_ptr,
         t_size: mem::size_of::<PCB>(),
     };
 

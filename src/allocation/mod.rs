@@ -38,6 +38,7 @@ impl<const PAGE_BYTES: usize> PageBitmap<PAGE_BYTES> {
     #[inline(always)]
     pub fn dealloc(page: u32) {
         unsafe {
+            // UPDATE with extension and microarch inlines
             for i in 0..PAGE_BYTES {
                 ((page as usize + i) as *mut usize).write(0);
             }
