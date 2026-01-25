@@ -16,10 +16,9 @@ pub enum ProcessState {
 /// ProcessControlBlock
 #[repr(C, align(64))]
 pub struct PCB {
-    pub stack_offset: usize,
+    //pub stack_offset: usize, 0 highest address
     pub text_offset: usize,
     pub pc_offset: usize,
-    pub reg_save_offset: usize,
     pub task_id: u16,
     pub state: ProcessState,
 }
@@ -38,7 +37,7 @@ impl FifoQueue {
         self.len = self.len.saturating_add(1);
         unsafe {
             //self.next.write_bytes(0_u8, 1);
-            self.next.write(val);
+            self.next.write(PCB { text_offset });
 
             self.next = self.next.byte_add(self.t_size);
         }
