@@ -1,6 +1,6 @@
 // Uses FCFS
 
-use core::ptr::write;
+use core::{ops::Div, ptr::write};
 
 use crate::allocation::*;
 
@@ -12,16 +12,19 @@ pub enum ProcessState {
     Terminated = 3,
 }
 
+/*
 // TODO add reg save pointer
 /// ProcessControlBlock
 #[repr(C, align(64))]
 pub struct PCB {
-    pub pc_offset: usize,
-    pub stack_offset: usize,
-    pub heap_offset: usize,
-    pub text_offset: usize,
-    pub state: ProcessState,
+    pub pc_offset: usize, // TODO shift pc into state to save bytes
+    pub stack_offset: usize, // offset starts at 1, grows downwards
+    pub heap_offset: usize, // incrementing upwards from always from 1 usize
+    pub text_offset: usize, // always page_size + 1 usize
+    pub state: ProcessState, // always 1 usize
+
 }
+*/
 
 // elements are sized from ProcessControlBlock
 #[repr(align(64))]
@@ -32,34 +35,32 @@ pub struct FifoQueue {
 }
 
 impl FifoQueue {
-    // TODO reallocate if needed.
-    pub fn add_process(&mut self, page_size: usize) {
+    // TODO reallocate if needed ofc.
+    pub fn add_process(&mut self, page_size: usize, text_size: usize) {
         self.len = self.len.saturating_add(1);
         unsafe {
-            /*
-            //self.next.write_bytes(0_u8, 1);
-            self.next.write(PCB {
-                pc_offset: 0,
-                stack_offset: 1,
-                heap_offset: page_size,
-                text_offset: page_size + 1,
-                state: ProcessState::Ready;
-            }
-            */
+            let dis = core::mem::size_of::<usize>();
 
-            let h = core::mem::size_of::<usize>()
+            self.next.write(0_usize); // pc
+            self.next = self.next.byte_add(dis); // stack_base is always 1
 
-            self.next.write(0);
-            self.next = self.next.byte_add(1); // stack_offset is always 1
-            self.next.write(page_size);
-            self.next = self.next.byte_add(core::mem::size_of::<usize>());
-            self.next.write(page_size + 1);
-            self.next = self.next.byte_add(?)
-            self.next.write(ProcessState::Ready as usize);
+            self.next.write(1_usize); // stack_base
+            self.next = self.next.byte_add(dis);
+
+            // TODO handle bigger text_sizes than page
+            self.next.write(page_size - text_size); // heap_base
+            self.next = self.next.byte_add(dis);
+
+            self.next.write(text_size); // text_base
+            self.next = self.next.byte_add(dis);
+
+            self.next.write(ProcessState::Ready as usize); // ProcessState
         };
-
-        //self.next = self.next.byte_add(self.t_size);
-
-        // TODO write process control block
     }
+
+    /*
+    pub fn del_process(&mut self, page_size: usize) {
+
+    }
+    */
 }
