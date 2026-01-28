@@ -1,6 +1,9 @@
 // Uses FCFS
 
-use core::{ops::Div, ptr::write};
+use core::{
+    ops::Div,
+    ptr::{self, write},
+};
 
 use crate::allocation::*;
 
@@ -9,7 +12,7 @@ pub enum ProcessState {
     Running = 0, // can be created or killed here.
     Waiting = 1,
     Ready = 2,
-    Terminated = 3,
+    Terminate = 3,
 }
 
 /*
@@ -24,9 +27,7 @@ pub struct PCB {
     pub state: ProcessState, // always 1 usize
 
 }
-*/
 
-// elements are sized from ProcessControlBlock
 #[repr(align(64))]
 pub struct FifoQueue {
     pub len: u16,
@@ -34,33 +35,42 @@ pub struct FifoQueue {
     pub t_size: usize,
 }
 
+*/
+
+#[repr(align(64))]
+pub struct FifoQueue {
+    pub len: u16, // ?? TODO another bitmap?
+    pub t_size: u16,
+}
+
 impl FifoQueue {
-    // TODO reallocate if needed ofc.
+    // TODO reallocate if needed ofc. TODO compress with bit shifting
     pub fn add_process(&mut self, page_size: usize, text_size: usize) {
-        self.len = self.len.saturating_add(1);
+        self.len = self.len + 1;
+        let mut next: *mut usize = (self.len as usize * self.t_size as usize) as *mut usize;
         unsafe {
             let dis = core::mem::size_of::<usize>();
 
-            self.next.write(0_usize); // pc
-            self.next = self.next.byte_add(dis); // stack_base is always 1
+            next.write(0_usize); // pc
+            next = next.byte_add(dis); // stack_base is always 1
 
-            self.next.write(1_usize); // stack_base
-            self.next = self.next.byte_add(dis);
+            next.write(1_usize); // stack_base
+            next = next.byte_add(dis);
 
             // TODO handle bigger text_sizes than page
-            self.next.write(page_size - text_size); // heap_base
-            self.next = self.next.byte_add(dis);
+            next.write(page_size - text_size); // heap_base
+            next = next.byte_add(dis);
 
-            self.next.write(text_size); // text_base
-            self.next = self.next.byte_add(dis);
+            next.write(text_size); // text_base
+            next = next.byte_add(dis);
 
-            self.next.write(ProcessState::Ready as usize); // ProcessState
+            next.write(ProcessState::Ready as usize); // ProcessState TODO fix for align
         };
     }
 
     /*
     pub fn del_process(&mut self, page_size: usize) {
-
+        self.next
     }
     */
 }
