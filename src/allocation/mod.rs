@@ -1,8 +1,7 @@
 /// bitmap where 0 = free and 1 = used. PAGE_BYTES should be base 2 for proformance!
 #[repr(C, align(64))]
 pub struct PageBitmap<const PAGE_BYTES: usize> {
-    pub bitmap: usize,
-    // TODO use other 60 bytes
+    pub bitmap: u128,
 }
 
 impl<const PAGE_BYTES: usize> PageBitmap<PAGE_BYTES> {
@@ -20,13 +19,13 @@ impl<const PAGE_BYTES: usize> PageBitmap<PAGE_BYTES> {
     }
 
     #[inline(always)]
-    pub fn alloc(&mut self) -> Option<usize> {
-        let mut addr: Option<usize> = None;
+    pub fn alloc(&mut self) -> usize {
+        let mut addr: usize = 0; // TODO handle fail/full
         let mut i: u8 = 1;
         loop {
             // TODO check
             if (self.bitmap << i).trailing_zeros() < (self.bitmap << (i - 1)).trailing_zeros() {
-                addr = Some(i as usize * PAGE_BYTES);
+                i as usize * PAGE_BYTES;
                 break;
             }
 

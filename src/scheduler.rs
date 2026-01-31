@@ -37,10 +37,13 @@ pub struct FifoQueue {
 
 */
 
+// Total allowed processes 376 512 total btyes just for bitmap
 #[repr(align(64))]
 pub struct FifoQueue {
-    pub len: u16, // ?? TODO another bitmap?
-    pub t_size: u16,
+    bitmap0: u128,
+    bitmap1: u128,
+    bitmap2: u128,
+    bitmap2_t: u128, // last 8 bytes are reserved for t_usize
 }
 
 impl FifoQueue {
