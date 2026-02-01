@@ -20,12 +20,12 @@ impl<const PAGE_BYTES: usize> PageBitmap<PAGE_BYTES> {
 
     #[inline(always)]
     pub fn alloc(&mut self) -> usize {
-        let mut addr: usize = 0; // TODO handle fail/full
+        let addr: usize; // TODO handle fail/full
         let mut i: u8 = 1;
         loop {
             // TODO check
             if (self.bitmap << i).trailing_zeros() < (self.bitmap << (i - 1)).trailing_zeros() {
-                i as usize * PAGE_BYTES;
+                addr = i as usize * PAGE_BYTES;
                 break;
             }
 
