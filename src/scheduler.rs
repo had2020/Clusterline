@@ -51,14 +51,16 @@ pub struct PCB {
 /// Bitmap process allocation with 128 max processes.
 #[repr(align(64))]
 pub struct FifoQueue<const PAGE_BYTES: usize> {
-    page_start: usize,
+    page_start: usize, // create with alloc
     bitmap: u128,
 }
 
 impl<const PAGE_BYTES: usize> FifoQueue<PAGE_BYTES> {
-    pub fn add_process(&mut self, text_bytes: usize, pb: PageBitmap<PAGE_BYTES>) {
+    // TODO loading
+    pub fn add_process(&mut self, text_bytes: usize, pb: &mut PageBitmap<PAGE_BYTES>) {
         let mut i: usize = 1;
 
+        // TODO replace with macro
         loop {
             if (self.bitmap << i).trailing_zeros() < (self.bitmap << (i - 1)).trailing_zeros() {
                 i += self.page_start;
@@ -73,7 +75,7 @@ impl<const PAGE_BYTES: usize> FifoQueue<PAGE_BYTES> {
         unsafe {
             next = next.byte_add(core::mem::size_of::<PCB>());
             next.write(PCB {
-                virtual_head: allocation::PageBitmap::alloc(&mut self)
+                virtual_head: allocation::PageBitmap::alloc(pb),
                 pc: 0,
                 stack_head: 0,
                 heap_head: PAGE_BYTES - text_bytes,
@@ -106,5 +108,17 @@ impl<const PAGE_BYTES: usize> FifoQueue<PAGE_BYTES> {
         */
     }
 
-    pub fn del_process(&mut self, page_size: usize) {}
+    pub fn run_quene(&mut self) {
+        let mut i: usize = 1;
+
+        // TODO replace with macro
+        loop {
+            if (self.bitmap << i).trailing_zeros() == (self.bitmap << (i - 1)).trailing_zeros() {
+                i += self.page_start;
+                break;
+            }
+
+            i += 1;
+        }
+    }
 }
