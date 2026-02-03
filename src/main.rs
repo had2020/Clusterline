@@ -12,6 +12,7 @@ pub mod allocation;
 pub mod arch;
 pub mod devicetree;
 pub mod drivers;
+pub mod filesystem;
 pub mod scheduler;
 pub mod syscalls;
 

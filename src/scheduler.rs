@@ -109,16 +109,12 @@ impl<const PAGE_BYTES: usize> FifoQueue<PAGE_BYTES> {
     }
 
     pub fn run_quene(&mut self) {
-        let mut i: usize = 1;
-
         // TODO replace with macro
-        loop {
-            if (self.bitmap << i).trailing_zeros() == (self.bitmap << (i - 1)).trailing_zeros() {
-                i += self.page_start;
-                break;
+        for i in 1..128 {
+            if (self.bitmap << i).trailing_zeros() > (self.bitmap << (i - 1)).trailing_zeros() {
+                let place = i + self.page_start;
+                // TODO run process
             }
-
-            i += 1;
         }
     }
 }
