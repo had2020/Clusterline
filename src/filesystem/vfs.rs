@@ -1,7 +1,27 @@
-pub struct super_block {}
+// TODO system calls open(), read(), write(), close(),
 
-pub struct dentry {}
+// TODO handle large amounts of filesystems in a tree
+pub struct MountPoint {
+    next_ptr: *mut MountPoint,
+}
 
-pub struct inode {}
+impl MountPoint {
+    pub fn mount() {}
 
-pub struct file {}
+    pub fn unmount() {}
+}
+
+pub struct SuperBlock {
+    block_size: usize,
+    inode_size: usize,
+    root_inode_idx: usize,
+}
+
+pub struct Inode {
+    pub file_size: usize,
+    pub data_blocks_locat: usize,
+}
+
+pub struct Dentry {}
+
+pub struct File {}
