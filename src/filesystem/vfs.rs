@@ -1,20 +1,13 @@
-// TODO system calls open(), read(), write(), close(),
-
-// TODO handle large amounts of filesystems in a tree
-pub struct MountPoint {
-    next_ptr: *mut MountPoint,
-}
-
-impl MountPoint {
-    pub fn mount() {}
-
-    pub fn unmount() {}
-}
+// TODO system calls open(), read(), write(), close(), chmod(),
 
 pub struct SuperBlock {
+    // TODO with text label_name: [u8; 4]
+    total_blocks: usize,
+    total_inodes: usize,
     block_size: usize,
     inode_size: usize,
-    root_inode_idx: usize,
+    root_inode_ptr: usize,
+    filesystem_type: u8, // TODO type enum
 }
 
 pub struct Inode {
@@ -25,3 +18,9 @@ pub struct Inode {
 pub struct Dentry {}
 
 pub struct File {}
+
+pub struct RootFileTree {
+    pub start: usize,
+    pub len: u8,
+    pub size_t: u8,
+}
