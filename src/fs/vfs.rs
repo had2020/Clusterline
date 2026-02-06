@@ -1,5 +1,12 @@
 // TODO system calls open(), read(), write(), close(), chmod(),
 
+use crate::allocation::{self, *};
+
+#[repr(u8)]
+pub enum FileSystemType {
+    SFS,
+}
+
 pub struct SuperBlock {
     // TODO with text label_name: [u8; 4]
     total_blocks: usize,
@@ -7,7 +14,7 @@ pub struct SuperBlock {
     block_size: usize,
     inode_size: usize,
     root_inode_ptr: usize,
-    filesystem_type: u8, // TODO type enum
+    filesystem_type: FileSystemType, // TODO type enum
 }
 
 pub struct Inode {
@@ -21,6 +28,5 @@ pub struct File {}
 
 pub struct RootFileTree {
     pub start: usize,
-    pub len: u8,
-    pub size_t: u8,
+    pub blocks: usize,
 }
