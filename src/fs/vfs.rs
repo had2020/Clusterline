@@ -20,14 +20,26 @@ pub struct Inode {
     pub data_blocks_locat: usize,
 }
 
-pub struct Dentry {}
+// Super compress latin chars
+// All 26 chars have a number 
+// going up from 2, A being the first at 2
+// 1 in any case in a breakaway for the next letter
+// TODO use the RLatinCompress crate .
 
-pub struct File {}
+pub struct Dentry {
+    name: u128,
+}
+
+pub struct File {
+    name: u128,
+}
 
 pub struct RootFileTree<const BLOCK_SIZE: usize> {
     pub page_start: usize,
 }
 
 impl RootFileTree<const BLOCK_SIZE: usize> {
-
+    pub fn open(name: Sting) {
+        let mut file_ptr: *&mut 
+    }  
 }
