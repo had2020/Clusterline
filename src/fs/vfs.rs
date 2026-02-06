@@ -1,5 +1,7 @@
 // TODO system calls open(), read(), write(), close(), chmod(),
 
+use core::{str::*, usize};
+
 #[repr(u8)]
 pub enum FileSystemType {
     SFS,
@@ -20,18 +22,12 @@ pub struct Inode {
     pub data_blocks_locat: usize,
 }
 
-// Super compress latin chars
-// All 26 chars have a number 
-// going up from 2, A being the first at 2
-// 1 in any case in a breakaway for the next letter
-// TODO use the RLatinCompress crate .
-
 pub struct Dentry {
-    name: u128,
+    id: usize,
 }
 
 pub struct File {
-    name: u128,
+    id: usize,
 }
 
 pub struct RootFileTree<const BLOCK_SIZE: usize> {
@@ -39,7 +35,7 @@ pub struct RootFileTree<const BLOCK_SIZE: usize> {
 }
 
 impl RootFileTree<const BLOCK_SIZE: usize> {
-    pub fn open(name: Sting) {
-        let mut file_ptr: *&mut 
+    pub fn open(*&mut Dentry, cd: u16) {
+        let mut file_ptr: *&mut  
     }  
 }
