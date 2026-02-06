@@ -51,8 +51,8 @@ pub struct PCB {
 /// Bitmap process allocation with 128 max processes.
 #[repr(align(64))]
 pub struct FifoQueue<const PAGE_BYTES: usize> {
-    page_start: usize, // create with alloc
-    bitmap: u128,
+    pub page_start: usize, // create with alloc
+    pub bitmap: u128,
 }
 
 impl<const PAGE_BYTES: usize> FifoQueue<PAGE_BYTES> {

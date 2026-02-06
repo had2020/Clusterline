@@ -6,15 +6,21 @@ include!(concat!(env!("OUT_DIR"), "/config.rs"));
 use core::mem;
 use core::panic::PanicInfo;
 
-use crate::scheduler::{FifoQueue, PCB};
+use crate::{
+    fs::vfs::RootFileTree,
+    scheduler::{FifoQueue, PCB},
+};
 
 pub mod allocation;
 pub mod arch;
 pub mod devicetree;
 pub mod drivers;
-pub mod filesystem;
+pub mod fs;
 pub mod scheduler;
 pub mod syscalls;
+
+const PAGE_BYTES: usize = 512;
+const BLOCK_SIZE: usize = 512;
 
 // Kernel Entry
 #[no_mangle]
@@ -23,16 +29,19 @@ pub extern "C" fn _start() -> ! {
     let mut bitmap: PageBitmap<MAX_ADDR> = PageBitmap { bitmap: 0 };
     bitmap.clear();
 
-    let fifoqueue_ptr: *mut usize = bitmap.alloc().unwrap() as *mut usize;
-
-    let mut process_queue: FifoQueue = FifoQueue {
-        len: 0,
-        //next: core::ptr::null_mut(),
-        next: fifoqueue_ptr,
-        t_size: mem::size_of::<PCB>(),
+    let mut process_queue: FifoQueue<PAGE_BYTES> = FifoQueue {
+        page_start: bitmap.alloc(),
+        bitmap: 0x00,
     };
 
-    loop {} // scheduler should handle unless no tasks then TODO
+    // TODO VFS
+    let mut vfs_rt: RootFileTree<BLOCK_SIZE> = RootFileTree {
+        page_start: bitmap.alloc(),
+    };
+
+    loop {
+        process_queue.run_quene();
+    }
 }
 
 #[panic_handler]
