@@ -7,8 +7,9 @@ pub enum FileSystemType {
     SFS,
 }
 
+#[repr(C, align(64))]
 pub struct SuperBlock {
-    // TODO with text label_name: [u8; 4]
+    pub label: u64,
     pub total_blocks: usize,
     pub total_inodes: usize,
     pub block_size: usize,
@@ -17,17 +18,16 @@ pub struct SuperBlock {
     pub filesystem_type: FileSystemType, // TODO type enum
 }
 
+#[repr(C, align(64))]
 pub struct Inode {
+    pub filename_packed: u64,
     pub file_size: usize,
     pub data_blocks_locat: usize,
-}
-
-pub struct Dentry {
-    id: usize,
-}
-
-pub struct File {
-    id: usize,
+    pub parent_idx: u32,      // index in the global array
+    pub first_child_idx: u32, // for directory traversal
+    pub next_sibling_idx: u32,// for directory traversal
+    pub data_region: u64,     // start block on disk
+    pub size: u32,
 }
 
 pub struct RootFileTree<const BLOCK_SIZE: usize> {
@@ -36,6 +36,6 @@ pub struct RootFileTree<const BLOCK_SIZE: usize> {
 
 impl RootFileTree<const BLOCK_SIZE: usize> {
     pub fn open(*&mut Dentry, cd: u16) {
-        let mut file_ptr: *&mut  
+        let mut file_ptr: *&mut 
     }  
 }
