@@ -1,3 +1,5 @@
+use super::PAGE_BYTES;
+
 /// bitmap where 0 = free and 1 = used. PAGE_BYTES should be base 2 for proformance!
 #[repr(C, align(64))]
 pub struct PageBitmap<const PAGE_BYTES: usize> {
