@@ -1,6 +1,6 @@
 warning: no edition set: defaulting to the 2015 edition while the latest is 2024
-   0.053120558s  INFO prepare_target{force=false package_id=Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline) target="Clusterline"}: cargo::core::compiler::fingerprint: fingerprint error for Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline)/Check { test: true }/TargetInner { name: "Clusterline", doc: true, ..: with_path("/home/had/Developer/GithubRepos/Clusterline/src/main.rs", Edition2015) }
-   0.053157348s  INFO prepare_target{force=false package_id=Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline) target="Clusterline"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/had/Developer/GithubRepos/Clusterline/target/debug/.fingerprint/Clusterline-3793863a049076f5/test-bin-Clusterline`
+   0.040300734s  INFO prepare_target{force=false package_id=Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline) target="Clusterline"}: cargo::core::compiler::fingerprint: fingerprint error for Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline)/Check { test: true }/TargetInner { name: "Clusterline", doc: true, ..: with_path("/home/had/Developer/GithubRepos/Clusterline/src/main.rs", Edition2015) }
+   0.040324459s  INFO prepare_target{force=false package_id=Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline) target="Clusterline"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/had/Developer/GithubRepos/Clusterline/target/debug/.fingerprint/Clusterline-1de657e92dc05aaa/test-bin-Clusterline`
 
 Caused by:
     No such file or directory (os error 2)
@@ -42,8 +42,8 @@ Stack backtrace:
   24: __libc_start_call_main
   25: __libc_start_main_alias_1
   26: <unknown>
-   0.062093064s  INFO prepare_target{force=false package_id=Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline) target="Clusterline"}: cargo::core::compiler::fingerprint: fingerprint error for Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline)/Check { test: false }/TargetInner { name: "Clusterline", doc: true, ..: with_path("/home/had/Developer/GithubRepos/Clusterline/src/main.rs", Edition2015) }
-   0.062108844s  INFO prepare_target{force=false package_id=Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline) target="Clusterline"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/had/Developer/GithubRepos/Clusterline/target/debug/.fingerprint/Clusterline-30d55fdc3280d1bf/bin-Clusterline`
+   0.048511657s  INFO prepare_target{force=false package_id=Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline) target="Clusterline"}: cargo::core::compiler::fingerprint: fingerprint error for Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline)/Check { test: false }/TargetInner { name: "Clusterline", doc: true, ..: with_path("/home/had/Developer/GithubRepos/Clusterline/src/main.rs", Edition2015) }
+   0.048527163s  INFO prepare_target{force=false package_id=Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline) target="Clusterline"}: cargo::core::compiler::fingerprint:     err: failed to read `/home/had/Developer/GithubRepos/Clusterline/target/debug/.fingerprint/Clusterline-7588164fc3c88c00/bin-Clusterline`
 
 Caused by:
     No such file or directory (os error 2)
@@ -86,6 +86,6 @@ Stack backtrace:
   25: __libc_start_main_alias_1
   26: <unknown>
     Checking Clusterline v0.0.1 (/home/had/Developer/GithubRepos/Clusterline)
-error: could not compile `Clusterline` (bin "Clusterline" test) due to 1 previous error
+error: could not compile `Clusterline` (bin "Clusterline" test) due to 1 previous error; 5 warnings emitted
 warning: build failed, waiting for other jobs to finish...
-error: could not compile `Clusterline` (bin "Clusterline") due to 1 previous error
+error: could not compile `Clusterline` (bin "Clusterline") due to 1 previous error; 7 warnings emitted

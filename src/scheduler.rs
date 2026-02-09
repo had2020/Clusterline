@@ -5,6 +5,7 @@ use core::{
     ptr::{self, write},
 };
 
+use super::utils::osconsts::PAGE_BYTES;
 use crate::allocation::{self, *};
 
 #[repr(u8)]
@@ -50,14 +51,14 @@ pub struct PCB {
 
 /// Bitmap process allocation with 128 max processes.
 #[repr(align(64))]
-pub struct FifoQueue<const PAGE_BYTES: usize> {
+pub struct FifoQueue {
     pub page_start: usize, // create with alloc
     pub bitmap: u128,
 }
 
-impl<const PAGE_BYTES: usize> FifoQueue<PAGE_BYTES> {
+impl FifoQueue {
     // TODO loading
-    pub fn add_process(&mut self, text_bytes: usize, pb: &mut PageBitmap<PAGE_BYTES>) {
+    pub fn add_process(&mut self, text_bytes: usize, pb: &mut PageBitmap) {
         let mut i: usize = 1;
 
         // TODO replace with macro

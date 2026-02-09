@@ -1,12 +1,12 @@
-use super::PAGE_BYTES;
+use super::utils::osconsts::PAGE_BYTES;
 
 /// bitmap where 0 = free and 1 = used. PAGE_BYTES should be base 2 for proformance!
 #[repr(C, align(64))]
-pub struct PageBitmap<const PAGE_BYTES: usize> {
+pub struct PageBitmap {
     pub bitmap: u128,
 }
 
-impl<const PAGE_BYTES: usize> PageBitmap<PAGE_BYTES> {
+impl PageBitmap {
     pub const fn new() -> Self {
         Self { bitmap: 0 }
     }

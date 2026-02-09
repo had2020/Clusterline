@@ -18,24 +18,22 @@ pub mod drivers;
 pub mod fs;
 pub mod scheduler;
 pub mod syscalls;
-
-const PAGE_BYTES: usize = 512;
-const BLOCK_SIZE: usize = 512;
+pub mod utils;
 
 // Kernel Entry
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     use allocation::*;
-    let mut bitmap: PageBitmap<MAX_ADDR> = PageBitmap { bitmap: 0 };
+    let mut bitmap: PageBitmap = PageBitmap { bitmap: 0 };
     bitmap.clear();
 
-    let mut process_queue: FifoQueue<PAGE_BYTES> = FifoQueue {
+    let mut process_queue: FifoQueue = FifoQueue {
         page_start: bitmap.alloc(),
         bitmap: 0x00,
     };
 
     // TODO VFS
-    let mut vfs_rt: RootFileTree<BLOCK_SIZE> = RootFileTree {
+    let mut vfs_rt: RootFileTree = RootFileTree {
         page_start: bitmap.alloc(),
     };
 
