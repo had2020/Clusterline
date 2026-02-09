@@ -1,6 +1,7 @@
 [package]
 name = "Clusterline"
 version = "0.0.1"
+linker_script = "link.ld"
 
 [features]
 #default = ["bitmap_allocater"]

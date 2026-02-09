@@ -1,4 +1,3 @@
-
 pub struct Mmap {
     pub base: usize,
     pub limit: usize,
@@ -6,6 +5,6 @@ pub struct Mmap {
 
 impl Mmap {
     pub fn check(idx: usize) {
-        //TODO 
+        //TODO
     }
 }
