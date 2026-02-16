@@ -1,6 +1,6 @@
 SECTIONS
 {
-    . = 0x100000; /* Kernel_start */
+    /*. = 0x100000; /* Kernel_start */
 
     .text   : { *(.text) }
     .rodata : { *(.rodata) }

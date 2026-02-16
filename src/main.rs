@@ -17,9 +17,10 @@ pub mod arch;
 pub mod devicetree;
 pub mod drivers;
 pub mod fs;
+pub mod mmap;
 pub mod scheduler;
 pub mod syscalls;
-pub mod utils;
+pub mod utils; //TODO base starting at kernel_end
 
 extern "C" {
     static _kernel_end: u8; // set by link.ld: highest address of Kernel code
