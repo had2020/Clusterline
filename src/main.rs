@@ -14,7 +14,7 @@ use crate::{
 
 pub mod allocation;
 pub mod arch;
-pub mod devicetree;
+//pub mod devicetreeblob;
 pub mod drivers;
 pub mod fs;
 pub mod mmap;

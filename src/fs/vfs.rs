@@ -32,6 +32,7 @@ pub struct Inode {
 
 pub struct RootFileTree {
     pub page_start: usize,
+    // TODO after first POST test
 }
 
 impl RootFileTree {
