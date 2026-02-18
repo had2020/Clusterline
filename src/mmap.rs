@@ -1,6 +1,6 @@
 pub struct Mmap {
     pub base: *mut usize,
-    pub max: usize,
+    pub max: *mut usize,
 }
 
 impl Mmap {
@@ -8,14 +8,22 @@ impl Mmap {
         let check_base: u8 = 0;
 
         // Ram probe
+        let mut offset_4kb: *mut usize = core::ptr::null_mut();
 
-        let mut offset_4kb: usize = 0;
-
-        loop {}
+        loop {
+            unsafe {
+                offset_4kb = offset_4kb.byte_add(4096);
+                offset_4kb.write_volatile(67);
+                if offset_4kb.read_volatile() == 67 {
+                    break;
+                }
+                offset_4kb.write_volatile(0);
+            }
+        }
 
         Mmap {
             base: check_base as *mut usize,
-            max: (), //TODO after Device tree
+            max: offset_4kb,
         }
     }
 
