@@ -1,6 +1,8 @@
 pub struct Mmap {
     pub base: *mut usize,
-    pub max: *mut usize,
+    pub highest_addr: *mut usize,
+    pub queue_head: *mut usize,
+    pub process_head: *mut usize,
 }
 
 impl Mmap {
@@ -23,7 +25,7 @@ impl Mmap {
 
         Mmap {
             base: check_base as *mut usize,
-            max: offset_4kb,
+            highest_addr: offset_4kb,
         }
     }
 
